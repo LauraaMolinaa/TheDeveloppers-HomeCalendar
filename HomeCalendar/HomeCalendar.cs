@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 
@@ -20,32 +21,14 @@ namespace Calendar
 
     public class HomeCalendar
     {
-        private string? _FileName;
-        private string? _DirName;
+        private SQLiteConnection _dbConnection; 
         private Categories _categories;
         private Events _events;
 
         // ====================================================================
         // Properties
         // ===================================================================
-
-        // Properties (location of files etc)
-        public String? FileName { get { return _FileName; } }
-        public String? DirName { get { return _DirName; } }
-        public String? PathName
-        {
-            get
-            {
-                if (_FileName != null && _DirName != null)
-                {
-                    return Path.GetFullPath(_DirName + "\\" + _FileName);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
+        public SQLiteConnection DbConnection { get { return _dbConnection; } }
 
         // Properties (categories and events object)
         public Categories categories { get { return _categories; } }
@@ -61,29 +44,29 @@ namespace Calendar
         }
 
         // -------------------------------------------------------------------
-        // Constructor (existing calendar ... must specify file)
+        // Constructor (existing calendar ... must specify database)
         // -------------------------------------------------------------------
-        public HomeCalendar(String calendarFileName)
+        public HomeCalendar(string databaseFile)
         {
             //_categories = new Categories();
             //_events = new Events();
             //ReadFromFile(calendarFileName);
         }
-        //public HomeCalendar(string databaseFile, string eventsXMLFile, bool newDB = false)
-        //{
-        //    if (!newDB && File.Exists(databaseFile))
-        //    {
-        //        Database.existingDatabase(databaseFile);
-        //    }
-        //    else
-        //    {
-        //        Database.newDatabase(databaseFile);
-        //        newDB = true;
-        //    }
-        //    _categories = new Categories(Database._dbConnection, newDB);
-        //    _events = new Events();
-        //    _events.ReadFromFile(eventsXMLFile);
-        //}
+        public HomeCalendar(string databaseFile, string eventsXMLFile, bool newDB = false)
+        {
+            if (!newDB && File.Exists(databaseFile))
+            {
+                Database.existingDatabase(databaseFile);
+            }
+            else
+            {
+                Database.newDatabase(databaseFile);
+                newDB = true;
+            }
+            _categories = new Categories(Database._dbConnection, newDB);
+            _events = new Events();
+            _events.ReadFromFile(eventsXMLFile);
+        }
 
         #region OpenNewAndSave
         // ---------------------------------------------------------------

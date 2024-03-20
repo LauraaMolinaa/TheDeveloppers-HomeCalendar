@@ -219,6 +219,8 @@ namespace Calendar
                 using var cmd = new SQLiteCommand(this._dbConnection);
                 cmd.CommandText = "DELETE FROM categories WHERE Id = @Id";
                 cmd.Parameters.AddWithValue("@Id", Id);
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
             }
 
             catch (Exception e)

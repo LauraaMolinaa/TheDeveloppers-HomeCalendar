@@ -25,17 +25,17 @@ namespace Calendar
         /// <summary>
         /// Gets/sets the specific number that will represent the category. 
         /// </summary>
-        public int Id { get; set; }
+        public int Id { get; }
 
         /// <summary>
         /// Gets/sets details about a specific category. 
         /// </summary>
-        public String Description { get; set; }
+        public String Description { get; }
 
         /// <summary>
         /// Gets/sets the kind of category the event (such as Holiday, AllDayEvent, Event).
         /// </summary>
-        public CategoryType Type { get; set; }
+        public CategoryType Type { get; }
 
         /// <summary>
         /// A set of strings that represent the groups of categories. 
