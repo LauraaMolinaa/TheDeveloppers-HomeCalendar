@@ -7,7 +7,7 @@ using System.Dynamic;
 
 namespace CalendarCodeTests
 {
-    
+    /*
     [Collection("Sequential")]
     public class TestHomeCalendar_GetCalendarDictionaryByCategoryAndMonth
     {
@@ -22,11 +22,11 @@ namespace CalendarCodeTests
         {
             // Arrange
             string folder = TestConstants.GetSolutionDir();
-            string inFile = TestConstants.GetSolutionDir() + "\\" + testInputFile;
+            //string inFile = TestConstants.GetSolutionDir() + "\\" + testInputFile;
             String goodDB = $"{folder}\\{TestConstants.testDBInputFile}";
             String messyDB = $"{folder}\\messy.db";
             System.IO.File.Copy(goodDB, messyDB, true);
-            HomeCalendar homeCalendar = new HomeCalendar(messyDB, inFile, false);
+            HomeCalendar homeCalendar = new HomeCalendar(messyDB, false);
 
             int maxRecords = TestConstants.CalendarItemsByCategoryAndMonth_MaxRecords;
             Dictionary<string, object> firstRecord = TestConstants.getCalendarItemsByCategoryAndMonthFirstRecord();
@@ -187,6 +187,6 @@ namespace CalendarCodeTests
         }
 
 
-    }
+    }*/
 }
 

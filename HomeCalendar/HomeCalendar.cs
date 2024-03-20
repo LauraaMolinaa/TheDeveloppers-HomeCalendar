@@ -46,26 +46,15 @@ namespace Calendar
         // -------------------------------------------------------------------
         // Constructor (existing calendar ... must specify database)
         // -------------------------------------------------------------------
-        public HomeCalendar(string databaseFile)
+        public HomeCalendar(string databaseFile, SQLiteConnection con, bool newDB)
         {
-            //_categories = new Categories();
-            //_events = new Events();
-            //ReadFromFile(calendarFileName);
-        }
-        public HomeCalendar(string databaseFile, string eventsXMLFile, bool newDB = false)
-        {
-            if (!newDB && File.Exists(databaseFile))
-            {
-                Database.existingDatabase(databaseFile);
-            }
-            else
+            this._dbConnection = con;
+            if (newDB)
             {
                 Database.newDatabase(databaseFile);
-                newDB = true;
             }
-            _categories = new Categories(Database._dbConnection, newDB);
+            _categories = new Categories(this._dbConnection, newDB);
             _events = new Events();
-            _events.ReadFromFile(eventsXMLFile);
         }
 
         #region OpenNewAndSave
