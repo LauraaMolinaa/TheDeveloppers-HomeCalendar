@@ -10,7 +10,7 @@ namespace Calendar
             //Events e1 = new Events();
 
             //conecting to db 
-            Database.newDatabase("C:\\Users\\2232607\\Documents\\Sprint2\\Milestone3_tests\\testDBInput.db");
+            Database.newDatabase("C:\\Users\\rania\\Downloads\\Sprint2-Milestone\\Milestone3_tests\\testDBInput.db");
         }
     }
 }

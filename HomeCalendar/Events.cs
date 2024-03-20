@@ -66,7 +66,7 @@ namespace Calendar
         /// ]]>
         /// </code>
         /// </example>
-        public void Add(string date, int categoryId, Double duration, String details)
+        public void Add(string date, int categoryId, double duration, string details)
         {
             var pragmaOff = new SQLiteCommand("PRAGMA foreign_keys=OFF", this._dbConnection);
             pragmaOff.ExecuteNonQuery();
@@ -86,7 +86,7 @@ namespace Calendar
         /// <summary>
         /// Removes the activity from the database.
         /// </summary>
-        /// <param name="EventId"> An unique number that represents an activity. </param>
+        /// <param name="eventId"> An unique number that represents an activity. </param>
         /// <exception cref="Exception"> Throw an exception if the Id could not be found in the database. </exception>
         /// <example>
         /// <code>
@@ -96,7 +96,7 @@ namespace Calendar
         /// ]]>
         /// </code>
         /// </example>
-        public void Delete(int EventId)
+        public void Delete(int eventId)
         {
             try
             {
@@ -104,13 +104,18 @@ namespace Calendar
                 pragmaOff.ExecuteNonQuery();
 
                 using var cmd = new SQLiteCommand(this._dbConnection);
-                cmd.CommandText = "DELETE FROM events WHERE Id = @EventId;";
-                cmd.Parameters.AddWithValue("@EventId", EventId);
+                cmd.CommandText = "DELETE FROM events WHERE Id = @eventId;";
+                cmd.Parameters.AddWithValue("@eventId", eventId);
                 int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected == 0)
+                {
+                    Console.WriteLine("No event found with the provided ID.");
+                }
             }
             catch (Exception e)
             {
-                throw new Exception("An error occurred while deleting an event from the database");
+                throw new Exception("An error occurred while deleting an event from the database", e);
             }
         }
 
@@ -149,7 +154,7 @@ namespace Calendar
             }
             catch (Exception e)
             {
-                throw new Exception("An error occurred while updating an event from the database");
+                throw new Exception("An error occurred while updating an event from the database.", e);
             }          
         }
 
@@ -169,7 +174,7 @@ namespace Calendar
         {
             List<Event> eventsList = new List<Event>();
 
-            string query = "SELECT * FROM events ";
+            string query = "SELECT Id, StartDateTime, DurationInMinutes, Details, CategoryId FROM events ORDER BY Id";
             SQLiteCommand cmd = new SQLiteCommand(query, this._dbConnection);
             using SQLiteDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -182,7 +187,8 @@ namespace Calendar
                 //DateTime startDate = DateTime.ParseExact(startDateTime, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
                 //Console.WriteLine($"{id}, {description}, {typeId}");
-                Add(startDateTime, categoryId, durationInMinutes, details);
+                // should be added to the list, eventsList.Add
+                Add(startDateTime, categoryId, durationInMinutes, details); 
             }
 
 
