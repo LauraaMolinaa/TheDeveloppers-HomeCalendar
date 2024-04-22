@@ -18,13 +18,11 @@ namespace HomeCalendarGUI
         /// <summary>
         /// Displays a message letting the user know the operation was successful.
         /// </summary>
-        /// <param name="msg"> A string that holds the message the user will see. </param>
         public void DisplayErrorMessage(string msg);
 
         /// <summary>
         /// Displays a message letting the user know the operation failed.
         /// </summary>
-        /// <param name="msg"> A string that holds the message the user will see.</param>
         public void DisplaySuccessfulMessage(string msg);
 
         /// <summary>

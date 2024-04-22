@@ -15,6 +15,7 @@ using Microsoft.Win32;
 using System.Data.Entity.Core.Objects;
 using System.Xml.Linq;
 using System.Windows.Interop;
+using static Calendar.Category;
 
 
 namespace HomeCalendarGUI
@@ -58,18 +59,19 @@ namespace HomeCalendarGUI
             }
 
             presenter.GetCategoriesForComboBox();
+            presenter.GetCategoriesTypeInList();
         }
 
         public void DisplayErrorMessage(string msg)
         {
-            //message.Foreground = Brushes.Red;
-            //message.Text = msg;
+            message.Foreground = Brushes.Red;
+            message.Text = msg;
         }
 
         public void DisplaySuccessfulMessage(string msg)
         {
-            //message.Foreground = Brushes.Red;
-            //message.Text = msg;
+            message.Foreground = Brushes.Green;
+            message.Text = msg;
         }
 
         public void ShowCategoriesOnComboBox(List<Category> categories)
@@ -83,16 +85,15 @@ namespace HomeCalendarGUI
 
         public void ShowInformationOnCmb(List<Category> categories)
         {
-            //foreach (var category in categories)
-            //{
-            //    if (cmbEventTypes.Items.Contains(category.Type))
-            //    {
-            //        //ignoring event types that have already been added because we do not want duplicates
-            //        continue;
-            //    }
-            //    cmbEventTypes.Items.Add(category.Type);
-            //    cmbCategories.Items.Add(category);
-            //}
+            foreach (var category in categories)
+            {
+                if (cmbEventTypes.Items.Contains(category.Type))
+                {
+                    //ignoring event types that have already been added because we do not want duplicates
+                    continue;
+                }
+                cmbEventTypes.Items.Add(category.Type);
+            }
         }
 
         private void Btn_SaveCalendarFileTo(object sender, RoutedEventArgs e)
@@ -110,5 +111,35 @@ namespace HomeCalendarGUI
             presenter.GetCategoriesForComboBox();
         }
 
+        private void Button_ClickAddCategory(object sender, RoutedEventArgs e)
+        {
+            var eventTypeChoice = cmbEventTypes.SelectedItem;
+            string desc = DescriptionBox.Text;
+
+            if (eventTypeChoice != null && !string.IsNullOrEmpty(desc))
+            {
+                CategoryType type = (CategoryType)eventTypeChoice;
+                presenter.AddNewCategory(desc, type);
+            }
+            else
+            {
+                DisplayErrorMessage("You cannot leave any fields empty.");
+            }
+        }
+
+        private void Button_ClickAddEvent(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_ClickCancelEvent(object sender, RoutedEventArgs e)
+        {
+            EventDescriptionBox.Clear();
+        }
+
+        private void CloseApplication(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }
