@@ -60,6 +60,8 @@ namespace HomeCalendarGUI
 
             presenter.GetCategoriesForComboBox();
             presenter.GetCategoriesTypeInList();
+            SetTodaysDateOnDatePicker();
+
         }
 
         public void DisplayErrorMessage(string msg)
@@ -72,6 +74,12 @@ namespace HomeCalendarGUI
         {
             message.Foreground = Brushes.Green;
             message.Text = msg;
+        }
+
+        public void SetTodaysDateOnDatePicker()
+        {
+            StartDate.DisplayDateStart = DateTime.Now;
+            EndDate.DisplayDateStart = DateTime.Now;
         }
 
         public void ShowCategoriesOnComboBox(List<Category> categories)
