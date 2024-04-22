@@ -120,6 +120,8 @@ namespace HomeCalendarGUI
             {
                 CategoryType type = (CategoryType)eventTypeChoice;
                 presenter.AddNewCategory(desc, type);
+                DescriptionBox.Clear();
+                cmbEventTypes.SelectedIndex = -1;
             }
             else
             {
@@ -129,7 +131,48 @@ namespace HomeCalendarGUI
 
         private void Button_ClickAddEvent(object sender, RoutedEventArgs e)
         {
+            if (StartDate.SelectedDate == null)
+            {
+                DisplayErrorMessage("Please select a start date for the event.");
+                return;
+            }
+            if (EndDate.SelectedDate == null)
+            {
+                DisplayErrorMessage("Please select an end date for the event.");
+                return;
+            }
+            if (catsComboBox.SelectedItem == null)
+            {
+                DisplayErrorMessage("Please select a category for the event.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(EventDescriptionBox.Text))
+            {
+                DisplayErrorMessage("Please enter a description for the event.");
+                return;
+            }
 
+            DateTime startDate = StartDate.SelectedDate.Value;
+            DateTime endDate = EndDate.SelectedDate.Value;
+
+            if (endDate < startDate)
+            {
+                DisplayErrorMessage("The end date cannot be before the start date.");
+                return;
+            }
+
+            Category selectedCategory = (Category)catsComboBox.SelectedItem;
+            string description = EventDescriptionBox.Text;
+
+            presenter.AddNewEvent(startDate, endDate, selectedCategory.Id, description);
+
+            // Clear the input fields
+            StartDate.SelectedDate = null;
+            EndDate.SelectedDate = null;
+            catsComboBox.SelectedIndex = -1;
+            EventDescriptionBox.Clear();
+
+            DisplaySuccessfulMessage("Event added successfully.");
         }
 
         private void Button_ClickCancelEvent(object sender, RoutedEventArgs e)

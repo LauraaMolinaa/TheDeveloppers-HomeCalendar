@@ -1,5 +1,4 @@
-
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -68,6 +67,24 @@ namespace HomeCalendarGUI
                 view.DisplaySuccessfulMessage("Category has been successfully added!");
             }
             
+        }
+
+        public void AddNewEvent(DateTime startDate, DateTime endDate, int categoryId, string description)
+        {
+            // Calculate the duration of the event
+            double duration = (endDate - startDate).TotalMinutes;
+
+            if (duration <= 0)
+            {
+                view.DisplayErrorMessage("End date must be later than start date.");
+                return;
+            }
+
+            // Here we call the Add method of the Events class from your model
+            model.events.Add(startDate, categoryId, duration, description);
+
+            // You might want to call a method to update the UI or a list of events here as well
+            view.DisplaySuccessfulMessage("Event added successfully.");
         }
 
         /// <summary>
