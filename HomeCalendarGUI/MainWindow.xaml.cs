@@ -75,12 +75,22 @@ namespace HomeCalendarGUI
         }
 
         public void ShowCategoriesOnComboBox(List<Category> categories)
-        {           
-            const int DEFAULT = 0;                        
-            categories.ForEach(c => {
-                catsComboBox.Items.Add(c);                
+        {
+            catsComboBox.Items.Clear();
+            // Sort categories alphabetically by their Description
+            var sortedCategories = categories.OrderBy(c => c.Description).ToList();
+
+            const int DEFAULT = 0;
+            sortedCategories.ForEach(c => {
+                catsComboBox.Items.Add(c);
             });
             catsComboBox.SelectedIndex = DEFAULT;
+
+            //const int DEFAULT = 0;                        
+            //categories.ForEach(c => {
+            //    catsComboBox.Items.Add(c);                
+            //});
+            //catsComboBox.SelectedIndex = DEFAULT;
         }
 
         public void ShowInformationOnCmb(List<Category> categories)
@@ -122,6 +132,7 @@ namespace HomeCalendarGUI
                 presenter.AddNewCategory(desc, type);
                 DescriptionBox.Clear();
                 cmbEventTypes.SelectedIndex = -1;
+                RefreshMainView();
             }
             else
             {
