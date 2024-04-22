@@ -16,6 +16,7 @@ using System.Data.Entity.Core.Objects;
 using System.Xml.Linq;
 using System.Windows.Interop;
 using static Calendar.Category;
+using System.Text.RegularExpressions;
 
 
 namespace HomeCalendarGUI
@@ -160,6 +161,11 @@ namespace HomeCalendarGUI
                 DisplayErrorMessage("Please select an end date for the event.");
                 return;
             }
+            if(EndTime.Text == null)
+            {
+                DisplayErrorMessage("Please choose a duration in minutes for your event."); 
+                return; 
+            }
             if (catsComboBox.SelectedItem == null)
             {
                 DisplayErrorMessage("Please select a category for the event.");
@@ -173,6 +179,13 @@ namespace HomeCalendarGUI
 
             DateTime startDate = StartDate.SelectedDate.Value;
             DateTime endDate = EndDate.SelectedDate.Value;
+
+            //getting duration in minutes
+            if(!double.TryParse(EndTime.Text, out double endTimeInMinutes))
+            {
+                DisplayErrorMessage("Invalid input: please enter a number for your duration in minutes."); 
+                return;
+            }
 
             if (endDate < startDate)
             {
@@ -203,5 +216,6 @@ namespace HomeCalendarGUI
         {
             Close();
         }
+
     }
 }
